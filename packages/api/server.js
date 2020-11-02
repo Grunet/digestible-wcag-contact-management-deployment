@@ -1,17 +1,25 @@
 const express = require("express");
 const { ApolloServer, gql } = require("apollo-server-express");
 
+const { getSubscribersData } = require("./contactsAdapter.js");
+
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
+  type Subscriber {
+    email: String
+  }
+
   type Query {
-    hello: String
+    subscribers: [Subscriber]
   }
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!",
+    subscribers: async () => {
+      return await getSubscribersData();
+    },
   },
 };
 

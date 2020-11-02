@@ -15,7 +15,13 @@
   "homepage": "https://github.com/Grunet/digestible-wcag-contact-management-deployment#readme",
   "dependencies": {
     "apollo-server-express": "^2.19.0",
+    "digestible-wcag-contact-management": "github:Grunet/digestible-wcag-contact-management#master",
+    "docker-secrets-nodejs": "^1.0.5",
     "express": "^4.17.1",
     "graphql": "^15.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "find-config": "^1.0.0"
   }
 }
