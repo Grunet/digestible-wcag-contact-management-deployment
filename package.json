@@ -1,0 +1,17 @@
+{
+  "name": "digestible-wcag-contact-management-deployment",
+  "version": "0.0.1",
+  "description": "Exposes the code from the source directory as APIs deployed in the cloud",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grunet/digestible-wcag-contact-management-deployment.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Grunet/digestible-wcag-contact-management-deployment/issues"
+  },
+  "homepage": "https://github.com/Grunet/digestible-wcag-contact-management-deployment#readme"
+}
