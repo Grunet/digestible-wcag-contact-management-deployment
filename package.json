@@ -2,8 +2,7 @@
   "name": "digestible-wcag-contact-management-deployment",
   "version": "0.0.1",
   "description": "Exposes the code from the source directory as APIs deployed in the cloud",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Grunet/digestible-wcag-contact-management-deployment.git"
@@ -13,5 +12,10 @@
   "bugs": {
     "url": "https://github.com/Grunet/digestible-wcag-contact-management-deployment/issues"
   },
-  "homepage": "https://github.com/Grunet/digestible-wcag-contact-management-deployment#readme"
+  "homepage": "https://github.com/Grunet/digestible-wcag-contact-management-deployment#readme",
+  "dependencies": {
+    "apollo-server-express": "^2.19.0",
+    "express": "^4.17.1",
+    "graphql": "^15.4.0"
+  }
 }
