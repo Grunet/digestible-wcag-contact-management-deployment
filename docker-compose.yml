@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile
+    ports:
+      - "4001:4000"
+    secrets:
+      - dwcag_apikeys_mailchimp_default
+      - dwcag_locatorids_mailchimp_listid
+
+secrets:
+  dwcag_apikeys_mailchimp_default:
+    file: ./secrets/mailchimpApiKey.txt
+  dwcag_locatorids_mailchimp_listid:
+    file: ./secrets/mailchimpListId.txt
