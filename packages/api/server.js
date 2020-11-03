@@ -26,6 +26,9 @@ const resolvers = {
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
+
+app.use("/health", require("express-healthcheck")());
+
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
