@@ -1,9 +1,9 @@
 const { getSubscribers } = require("digestible-wcag-contact-management");
 
-const { getAwsSecrets } = require("../../lib/config.js");
+const { getMailchimpSecrets } = require("../../lib/config.js");
 
 async function __getSubscribersData() {
-  const { apiKey, listId } = getAwsSecrets();
+  const { apiKey, listId } = getMailchimpSecrets();
 
   const { subscribers } = await getSubscribers({
     mailchimp: {
