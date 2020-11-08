@@ -18,6 +18,22 @@ Exposes the code from the source directory as APIs deployed in the cloud
     - Running the troubleshooting commands mentioned [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-service-discovery.html#create-service-discovery-verify) was helpful in identifying the port issues
   - "Auto-Assign Public IP" needs to be set to Yes, otherwise the task instance has trouble pulling the container image from ECR (as also mentioned [in this troubleshooting page](https://aws.amazon.com/premiumsupport/knowledge-center/ecs-pull-container-api-error-ecr/))
 
+- Following the guidance [here](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scheduled-scaling.html) with the appropriate ECS-specific replacements mentioned [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalabletarget.html), it's possible to only have the server running around the time of day when it's needed (i.e. when the emails are being sent)
+
+  - The following AWS CLI commands can setup and cancel this scheduling (on Windows), with these replacements:
+    - "default" should be replaced by the ECS cluster's name
+    - "dwcag-contacts-api" should be replaced by the ECS service's name
+    - "30 10" (i.e. 10:30) should be replaced by the minutes and hour (in UTC) that the server should be started at each day
+    - "30 11" (i.e. 11:30) should be replaced by the minutes and hour (in UTC) that the server should be stopped at each day
+  - Command to register the service with the scheduler (only needed once before anything else can be done)
+    - `aws application-autoscaling register-scalable-target --service-namespace ecs --scalable-dimension ecs:service:DesiredCount --resource-id service/default/dwcag-contacts-api --min-capacity 0 --max-capacity 1`
+  - Commands to setup the schedule
+    - `aws application-autoscaling put-scheduled-action --service-namespace ecs --scalable-dimension ecs:service:DesiredCount --resource-id service/default/dwcag-contacts-api --scheduled-action-name start-up-dwcag-contacts-api-server --schedule "cron(30 10 * * ? *)" --scalable-target-action MinCapacity=1,MaxCapacity=1`
+    - `aws application-autoscaling put-scheduled-action --service-namespace ecs --scalable-dimension ecs:service:DesiredCount --resource-id service/default/dwcag-contacts-api --scheduled-action-name tear-down-dwcag-contacts-api-server --schedule "cron(30 11 * * ? *)" --scalable-target-action MinCapacity=0,MaxCapacity=0`
+  - Commands to cancel the schedule
+    - `aws application-autoscaling delete-scheduled-action --service-namespace ecs --scalable-dimension ecs:service:DesiredCount --resource-id service/default/dwcag-contacts-api --scheduled-action-name start-up-dwcag-contacts-api-server`
+    - `aws application-autoscaling delete-scheduled-action --service-namespace ecs --scalable-dimension ecs:service:DesiredCount --resource-id service/default/dwcag-contacts-api --scheduled-action-name tear-down-dwcag-contacts-api-server`
+
 ### Security Notes
 
 - Since the task instances have to have a public IP address to pull the container from ECR (when using a public VPC and subnets), they are out in the open on the internet and vulnerable
