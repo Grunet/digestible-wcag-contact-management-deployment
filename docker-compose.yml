@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./packages/api/Dockerfile
     ports:
+      # Exposing a different host port to avoid conflicts with other containers running locally
       - "4001:4000"
     secrets:
       - dwcag_apikeys_mailchimp_default
